@@ -1,0 +1,38 @@
+.bc-root {
+    margin-bottom: 14px
+}
+
+.bc-list {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    align-items: center
+}
+
+.bc-item {
+    color: rgba(255, 255, 255, 0.85)
+}
+
+.bc-item:after {
+    content: '/';
+    margin: 0 8px;
+    color: rgba(255, 255, 255, 0.35)
+}
+
+.bc-item.current:after {
+    content: ''
+}
+
+.bc-link {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.9
+}
+
+.bc-current {
+    color: #fff;
+    font-weight: 700
+}

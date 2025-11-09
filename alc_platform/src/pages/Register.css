@@ -1,0 +1,198 @@
+.register-container {
+    /* make the gradient span the full viewport width and height */
+    min-height: auto;
+    width: auto;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background: linear-gradient(135deg, #4b0066 0%, #6a0066 50%, #800066 100%);
+    background-attachment: fixed;
+    background-size: cover;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.register-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.register-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.register-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+.register-form {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.form-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.form-section h2 {
+    margin: 0 0 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.personal-info {
+    border-top: 5px solid #4CAF50;
+}
+
+.work-info {
+    border-top: 5px solid #2196F3;
+}
+
+.emergency-info {
+    border-top: 5px solid #F44336;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4b0066;
+    box-shadow: 0 0 0 3px rgba(75, 0, 102, 0.1);
+}
+
+.personal-info .form-group input:focus,
+.personal-info .form-group select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.work-info .form-group input:focus,
+.work-info .form-group select:focus {
+    border-color: #2196F3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.emergency-info .form-group input:focus,
+.emergency-info .form-group select:focus {
+    border-color: #F44336;
+    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.form-actions button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn {
+    background: #4b0066;
+    color: white;
+    box-shadow: 0 4px 6px rgba(75, 0, 102, 0.2);
+}
+
+.cancel-btn {
+    background: #f5f5f5;
+    color: #666;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:hover,
+.cancel-btn:hover {
+    transform: translateY(-2px);
+}
+
+.submit-btn:hover {
+    box-shadow: 0 6px 12px rgba(75, 0, 102, 0.3);
+}
+
+.cancel-btn:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .register-container {
+        padding: 20px 10px;
+    }
+
+    .register-header h1 {
+        font-size: 2rem;
+    }
+
+    .register-form {
+        padding: 20px;
+    }
+
+    .form-sections {
+        gap: 20px;
+    }
+
+    .form-section {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,335 @@
+.login-bg {
+    /* Cover the entire viewport reliably (avoids 100vw scrollbar issues) */
+    position: fixed;
+    inset: 0;
+    /* top:0; right:0; bottom:0; left:0 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4b0066;
+    /* purple background similar to screenshots */
+    padding: 40px 0;
+    z-index: 0;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    padding: 28px;
+    border-radius: 10px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+    text-align: center;
+    margin: 0 12px;
+    /* default role colors (Empleado) */
+    --role: #58b04b;
+    --role-light: #cfead7;
+    --role-contrast: #ffffff;
+    transition: all 220ms ease;
+}
+
+/* platform header - creative title */
+.platform-header {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    /* decorative only */
+    transition: top 220ms ease, transform 220ms ease;
+    z-index: 3;
+}
+
+.platform-title {
+    pointer-events: auto;
+    margin: 0;
+    padding: 6px 12px;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.6px;
+    line-height: 1;
+    text-align: center;
+    /* responsive size (default/expanded) */
+    font-size: clamp(20px, 3.8vw, 44px);
+    color: #fff;
+    text-shadow: 0 6px 22px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.02) inset;
+}
+
+/* Position and sizing for the title when the form is collapsed (place it in the orange oval)
+   Use clamp so it stays attractive across viewport sizes. */
+.login-bg.collapsed .platform-header {
+    top: clamp(110px, 18vh, 220px);
+}
+
+.login-bg.collapsed .platform-title {
+    font-size: clamp(36px, 9.5vw, 96px);
+    transform: translateY(0);
+}
+
+/* When expanded, move header to the top and use a more compact title size so it doesn't
+   interfere with the form; transitions make the movement smooth. */
+.login-bg.expanded .platform-header {
+    top: 12px;
+}
+
+.login-bg.expanded .platform-title {
+    font-size: clamp(20px, 3.8vw, 44px);
+    transform: translateY(-2px);
+}
+
+.platform-title .accent {
+    display: inline-block;
+    background: linear-gradient(90deg, #c9f695 0%, #6bff51 55%, #24811f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.platform-title .thin {
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 520px) {
+    .platform-header {
+        top: 12px;
+    }
+
+    .platform-title {
+        font-size: clamp(18px, 6.5vw, 28px);
+    }
+}
+
+.brand {
+    color: var(--role);
+    font-size: 34px;
+    margin: 6px 0 18px;
+}
+
+.roles {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.role {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.role.active {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.role:nth-child(1) {
+    background: #2eba19df;
+}
+
+.role:nth-child(2) {
+    background: #0d4347;
+}
+
+.role:nth-child(3) {
+    background: #620d0d;
+}
+
+.role:nth-child(4) {
+    background: #3f1646;
+}
+
+/* Role-specific variables so the card, inputs and buttons change color when a role is selected */
+.login-card.empleado {
+    --role: #25a511;
+    --role-light: #cfead7;
+}
+
+.login-card.jefe {
+    --role: #0e4e54;
+    --role-light: #d7efe8;
+}
+
+.login-card.administrativo {
+    --role: #5c1515;
+    --role-light: #f3dfd6;
+}
+
+.login-card.directivo {
+    --role: #37113d;
+    --role-light: #f1dff2;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+    overflow: hidden;
+    /* allow animating collapse/expand */
+    max-height: 800px;
+    /* large enough for expanded form */
+    opacity: 1;
+    transition: max-height 260ms ease, opacity 220ms ease, transform 260ms ease;
+    transform-origin: top center;
+}
+
+/* collapsed state: hide the form visually but keep it in the flow for smooth animation */
+.login-card.collapsed {
+    padding-bottom: 14px;
+}
+
+.login-card.collapsed .login-form {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px) scaleY(0.98);
+    pointer-events: none;
+}
+
+.login-card.expanded {
+    padding-bottom: 28px;
+}
+
+/* when collapsed hide brand visually but allow transition */
+.login-card.collapsed .brand {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    overflow: hidden;
+    transition: opacity 200ms ease, max-height 200ms ease, margin 200ms ease;
+}
+
+.login-card.expanded .brand {
+    opacity: 1;
+    max-height: 200px;
+    margin: 6px 0 18px;
+}
+
+.login-form label {
+    text-align: left;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+.login-form input,
+.login-form select {
+    padding: 12px 14px;
+    border-radius: 6px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    background: var(--role-light);
+    outline: none;
+    font-size: 14px;
+}
+
+.login-form .submit {
+    margin-top: 10px;
+    background: var(--role);
+    color: var(--role-contrast);
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ensure role buttons indicate selected role by matching role color */
+.login-card.empleado .role.active {
+    box-shadow: 0 2px 0 rgba(88, 176, 75, 0.25);
+}
+
+.login-card.jefe .role.active {
+    box-shadow: 0 2px 0 rgba(14, 102, 85, 0.25);
+}
+
+.login-card.administrativo .role.active {
+    box-shadow: 0 2px 0 rgba(122, 45, 24, 0.25);
+}
+
+.login-card.directivo .role.active {
+    box-shadow: 0 2px 0 rgba(126, 46, 138, 0.25);
+}
+
+/* responsive smaller screens */
+@media (max-width: 480px) {
+    .login-card {
+        width: 92%;
+        padding: 18px;
+    }
+
+    .brand {
+        font-size: 26px;
+    }
+
+    .roles {
+        gap: 8px;
+    }
+}
+
+/* When the form is expanded: move header to the very top and ensure title remains readable
+   and slightly larger to take advantage of available space. Also push the card down. */
+.login-bg.expanded {
+    align-items: flex-start;
+    padding-top: 110px;
+    /* leave room for header */
+}
+
+.login-bg.expanded .platform-header {
+    top: 12px;
+}
+
+.login-bg.expanded .platform-title {
+    /* slightly larger maximum for expanded layout */
+    font-size: clamp(22px, 4.5vw, 56px);
+}
+
+.login-card {
+    z-index: 2;
+}
+
+/* additional header animation rules */
+.platform-title {
+    transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.login-bg.collapsed .platform-header {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.login-bg.expanded .platform-header {
+    transform: translateY(-6px);
+    opacity: 1;
+}
+
+.login-card.expanded .platform-title {
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+.register-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.register-link a {
+    color: var(--role);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.register-link a:hover {
+    background: var(--role-light);
+    text-decoration: underline;
+}

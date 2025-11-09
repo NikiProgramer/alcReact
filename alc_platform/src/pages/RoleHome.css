@@ -1,0 +1,415 @@
+.role-home-root {
+    --sidebar: #114f52;
+    /* default sidebar */
+    --center: #c7dbe2;
+    /* default center bg */
+    --accent: #114f52;
+    --accent-light: #2a7a78;
+    --accent-dark: #0d3b3a;
+    /* default accent color */
+    --accent-contrast: #e9f6f4;
+
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr) 320px;
+    gap: 20px;
+    background: var(--center);
+
+    /* make this container break out of any centered parent and use full viewport width */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+
+/* per-role overrides (class added to root in RoleHome.jsx)
+   Names expected: jefe, empleado, administrativo, directivo */
+.role-home-root.jefe {
+    --sidebar: #1f5b5b;
+    --center: #cfeff0;
+    --accent: #1f5b5b;
+}
+
+.role-home-root.empleado {
+    --sidebar: #103919;
+    --center: #dff5df;
+    --accent: #103919;
+}
+
+.role-home-root.empleado .rh-center-card {
+    max-width: none;
+    width: calc(100% - 80px);
+    padding: 0 40px;
+}
+
+.role-home-root.empleado .logo-hero .logo-left,
+.role-home-root.empleado .logo-hero .logo-right {
+    padding: 72px 44px;
+}
+
+.role-home-root.administrativo {
+    --sidebar: #4b130e;
+    --center: #dcc9c8;
+    --accent: #4b130e;
+}
+
+.role-home-root.directivo {
+    --sidebar: #3b0733;
+    --center: #f4eaf4;
+    --accent: #3b0733;
+}
+
+/* per-role accent light/dark variants for hover/active states */
+.role-home-root.jefe {
+    --accent-light: #3a7a7a;
+    --accent-dark: #173f3f;
+}
+
+.role-home-root.empleado {
+    --accent-light: #2a5a3f;
+    --accent-dark: #081e10;
+}
+
+.role-home-root.administrativo {
+    --accent-light: #6a2a22;
+    --accent-dark: #330a08;
+}
+
+.role-home-root.directivo {
+    --accent-light: #5b234f;
+    --accent-dark: #250326;
+}
+
+.rh-sidebar {
+    background: var(--sidebar);
+    color: #fff;
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.rh-profile {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 18px
+}
+
+.rh-profile .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: #ddd;
+    margin: 0 auto 12px;
+    border: 4px solid rgba(167, 151, 151, 0.551)
+}
+
+.rh-profile h3 {
+    margin: 0 0 6px;
+    font-size: 18px
+}
+
+.rh-profile .subtitle {
+    opacity: 0.9;
+    margin-bottom: 8px
+}
+
+.rh-profile .store {
+    font-size: 13px;
+    opacity: 0.85
+}
+
+.rh-nav {
+    width: 100%;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 12px 10px;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background .18s ease, transform .12s ease;
+}
+
+/* simple icon placeholder on the left of nav items */
+.nav-btn::before {
+    content: '●';
+    color: rgba(253, 252, 252, 0.953);
+    font-size: 14px;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    opacity: 0.95;
+}
+
+.nav-btn.highlight {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-btn.active {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 6px 0 0 var(--accent);
+}
+
+.nav-btn:hover {
+    transform: translateX(4px);
+    background: var(--accent-light);
+}
+
+.nav-btn:active {
+    background: var(--accent-dark);
+}
+
+.rh-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0
+}
+
+.rh-center-card {
+    width: 100%;
+    max-width: none;
+    /* allow center area to take full column width */
+    text-align: center;
+    padding: 0 28px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* make the jefe layout use the full available center width */
+.role-home-root.jefe .rh-center-card {
+    max-width: none;
+    width: calc(100% - 80px);
+    /* leave some breathing room for sidebars */
+    padding: 0 40px;
+}
+
+/* increase hero padding for jefe to better match screenshots */
+.role-home-root.jefe .logo-hero .logo-left,
+.role-home-root.jefe .logo-hero .logo-right {
+    padding: 80px 48px;
+}
+
+.logo-hero {
+    display: flex;
+    margin: 20px 0 36px;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    max-width: none;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+.logo-hero .logo-left {
+    flex: 1 1 50%;
+    background: linear-gradient(180deg, var(--accent), rgba(0, 0, 0, 0.05));
+    color: #fff;
+    padding: 64px 36px;
+}
+
+.logo-hero .logo-right {
+    flex: 1 1 50%;
+    background: #fff;
+    color: var(--accent);
+    padding: 64px 36px;
+}
+
+.rh-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center
+}
+
+.section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px
+}
+
+.sub-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+    align-items: center;
+}
+
+.sub-btn {
+    background: #f5f5f5;
+    color: #133;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 10px 22px;
+    min-width: 300px;
+    border-radius: 6px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: background .12s ease, transform .08s ease;
+}
+
+.sub-btn.primary {
+    background: var(--accent-light);
+    color: #fff;
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+.sub-btn:hover {
+    transform: translateY(-2px);
+}
+
+.sub-btn:active {
+    transform: translateY(1px);
+}
+
+
+.big-btn {
+    background: var(--accent);
+    color: #fff;
+    padding: 14px 48px;
+    border-radius: 8px;
+    border: none;
+    min-width: 260px;
+    width: min(520px, 60%);
+    font-size: 18px;
+    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.big-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+    background: var(--accent-dark);
+}
+
+.big-btn:hover {
+    transform: translateY(-2px);
+    background: var(--accent-light);
+}
+
+.big-btn .chev {
+    margin-left: 8px
+}
+
+.rh-right {
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+    border-left: 6px solid rgba(0, 0, 0, 0.04);
+}
+
+.card h4 {
+    margin: 0 0 8px;
+    color: var(--accent);
+}
+
+/* apply role accent to card borders */
+.role-home-root.jefe .card {
+    border-left-color: var(--accent);
+}
+
+.role-home-root.empleado .card {
+    border-left-color: var(--accent);
+}
+
+.role-home-root.administrativo .card {
+    border-left-color: var(--accent);
+}
+
+.role-home-root.directivo .card {
+    border-left-color: var(--accent);
+}
+
+.calendar-grid {
+    height: 220px;
+    background: #f5f8fa;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b8a90
+}
+
+.news ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.news li strong {
+    display: block;
+    color: #7b1720;
+}
+
+.news li div {
+    font-size: 13px;
+    color: #7b8a90;
+}
+
+.rh-footer {
+    position: fixed;
+    left: 16px;
+    bottom: 10px
+}
+
+@media (max-width: 980px) {
+    .role-home-root {
+        grid-template-columns: 220px 1fr;
+    }
+
+    .rh-right {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .role-home-root {
+        grid-template-columns: 1fr;
+        /* stack everything */
+    }
+
+    .rh-sidebar {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+    }
+
+    .rh-main {
+        padding: 20px 0;
+    }
+
+    .rh-right {
+        display: none;
+    }
+
+    .big-btn {
+        width: 100%;
+        min-width: 0;
+    }
+}
