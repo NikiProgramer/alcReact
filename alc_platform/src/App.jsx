@@ -39,7 +39,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/home/:role" element={<RoleHome />}>
-          <Route path="personal" element={<Personal />} />
+          <Route path="personal" element={<PersonalInfo />} />
           <Route path="personal/info" element={<PersonalInfo />} />
           <Route path="personal/list" element={<PersonalList />} />
           <Route path="personal/horario" element={<PersonalHorario />} />
