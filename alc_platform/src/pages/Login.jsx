@@ -5,24 +5,51 @@ import { useUser } from '../context/UserContext'
 
 export default function Login() {
     const [role, setRole] = useState('Empleado')
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [store, setStore] = useState('')
     const [showForm, setShowForm] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const navigate = useNavigate()
     const { setUser } = useUser()
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
-        // Minimal demo validation; replace with real auth later
-        if (!username || !password) {
-            alert('Por favor ingresa usuario y contraseña')
+        setError('')
+
+        if (!email || !password) {
+            setError('Por favor ingresa email y contraseña')
             return
         }
-        // In a real app you'd call an API and handle errors
-        // Save user context and navigate to role-specific home
-        setUser({ username, role, store })
-        navigate(`/home/${role.toLowerCase()}`, { replace: true })
+
+        setLoading(true)
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+
+            if (response.ok) {
+                setUser({ email, role, store })
+                navigate(`/home/${role.toLowerCase()}`, { replace: true })
+            } else if (response.status === 401) {
+                setError('Credenciales incorrectas')
+            } else {
+                setError('Error al conectar con la base de datos')
+            }
+        } catch (err) {
+            setError('Error de conexión. Verifica que el servidor esté activo')
+            console.error('Login error:', err)
+        } finally {
+            setLoading(false)
+        }
     }
 
     function handleRoleClick(r) {
@@ -63,12 +90,16 @@ export default function Login() {
                 </div>
 
                 <form className="login-form" onSubmit={handleSubmit}>
-                    <label>Usuario:</label>
+                    {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+
+                    <label>Email:</label>
                     <input
-                        placeholder="Ingresa tu usuario"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        aria-label="Usuario"
+                        placeholder="Ingresa tu email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        aria-label="Email"
+                        disabled={loading}
                     />
 
                     <label>Contraseña:</label>
@@ -78,17 +109,20 @@ export default function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         aria-label="Contraseña"
+                        disabled={loading}
                     />
 
                     <label>Tienda:</label>
-                    <select value={store} onChange={(e) => setStore(e.target.value)}>
+                    <select value={store} onChange={(e) => setStore(e.target.value)} disabled={loading}>
                         <option value="">Selecciona tu tienda</option>
                         <option value="SJL">San Juan</option>
                         <option value="CEN">Centro</option>
                         <option value="SUR">Sur</option>
                     </select>
 
-                    <button className={`submit ${role.toLowerCase()}`} type="submit">Ingresar {role.toLowerCase()}</button>
+                    <button className={`submit ${role.toLowerCase()}`} type="submit" disabled={loading}>
+                        {loading ? 'Ingresando...' : `Ingresar ${role.toLowerCase()}`}
+                    </button>
                 </form>
             </div>
         </div>

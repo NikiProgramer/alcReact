@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Register.css';
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
         tienda: '',
         telefono: '',
         email: '',
+        password: '',
         fechaNacimiento: '',
         direccion: '',
         contactoEmergencia: '',
@@ -16,11 +18,53 @@ export default function Register() {
         eps: '',
         tipoSangre: ''
     });
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
+    const [success, setSuccess] = React.useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Datos del formulario:', formData);
-        // Aquí iría la lógica para enviar los datos
+        setError('');
+        setSuccess('');
+
+        if (!formData.email || !formData.password) {
+            setError('Email y contraseña son requeridos');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
+
+            const text = await response.text();
+
+            if (response.ok) {
+                setSuccess('¡Usuario registrado con éxito! Redirigiendo al login...');
+                console.log('Registro exitoso:', formData);
+                setTimeout(() => {
+                    navigate('/', { replace: true });
+                }, 2000);
+            } else if (text.includes('ya registrado')) {
+                setError('Este email ya está registrado');
+            } else {
+                setError('Error al registrar. Por favor intenta de nuevo');
+            }
+        } catch (err) {
+            setError('Error de conexión. Verifica que el servidor esté activo');
+            console.error('Register error:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleChange = (e) => {
@@ -38,6 +82,9 @@ export default function Register() {
                 <p>Complete sus datos personales</p>
             </div>
 
+            {error && <div className="alert alert-error" style={{ color: 'red', marginBottom: '15px', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '4px' }}>{error}</div>}
+            {success && <div className="alert alert-success" style={{ color: 'green', marginBottom: '15px', padding: '10px', backgroundColor: '#e0ffe0', borderRadius: '4px' }}>{success}</div>}
+
             <form className="register-form" onSubmit={handleSubmit}>
                 <div className="form-sections">
                     <section className="form-section personal-info">
@@ -51,6 +98,7 @@ export default function Register() {
                                     name="cedula"
                                     value={formData.cedula}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -63,6 +111,7 @@ export default function Register() {
                                     name="nombreCompleto"
                                     value={formData.nombreCompleto}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -75,6 +124,7 @@ export default function Register() {
                                     name="fechaNacimiento"
                                     value={formData.fechaNacimiento}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -87,6 +137,20 @@ export default function Register() {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
+                                    disabled={loading}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="password">Contraseña</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -103,6 +167,7 @@ export default function Register() {
                                     name="cargo"
                                     value={formData.cargo}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 >
                                     <option value="">Seleccione un cargo</option>
@@ -120,6 +185,7 @@ export default function Register() {
                                     name="tienda"
                                     value={formData.tienda}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 >
                                     <option value="">Seleccione una tienda</option>
@@ -137,6 +203,7 @@ export default function Register() {
                                     name="telefono"
                                     value={formData.telefono}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -149,6 +216,7 @@ export default function Register() {
                                     name="direccion"
                                     value={formData.direccion}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -166,6 +234,7 @@ export default function Register() {
                                     name="contactoEmergencia"
                                     value={formData.contactoEmergencia}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -178,6 +247,7 @@ export default function Register() {
                                     name="telefonoEmergencia"
                                     value={formData.telefonoEmergencia}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -190,6 +260,7 @@ export default function Register() {
                                     name="eps"
                                     value={formData.eps}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
                             </div>
@@ -201,6 +272,7 @@ export default function Register() {
                                     name="tipoSangre"
                                     value={formData.tipoSangre}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 >
                                     <option value="">Seleccione</option>
@@ -219,8 +291,10 @@ export default function Register() {
                 </div>
 
                 <div className="form-actions">
-                    <button type="submit" className="submit-btn">Registrar</button>
-                    <button type="button" className="cancel-btn" onClick={() => window.history.back()}>
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? 'Registrando...' : 'Registrar'}
+                    </button>
+                    <button type="button" className="cancel-btn" onClick={() => window.history.back()} disabled={loading}>
                         Cancelar
                     </button>
                 </div>
