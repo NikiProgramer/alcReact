@@ -35,7 +35,8 @@ export default function Register() {
 
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/register', {
+            const BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000'
+            const response = await fetch(`${BASE}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
